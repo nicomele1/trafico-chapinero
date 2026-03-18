@@ -1,0 +1,108 @@
+\Chapter{El teorema de Beckmann}\label{cap:beckmann}
+
+\section{El problema de Beckmann}
+
+\subsection{Formulación}
+
+\datebox{2026}
+
+\begin{definition}[Problema de Beckmann]\label{def:beckmann}
+El \emph{problema de Beckmann} es el problema de optimización:
+\begin{equation}\label{eq:beckmann}
+(\mathcal{B}) \quad \min_{f \in \FeasSet} \; Z(f) \defeq \sum_{a \in A} T_a(x_a(f)) = \sum_{a \in A} \int_0^{x_a(f)} t_a(u) \, du.
+\end{equation}
+\end{definition}
+
+\begin{proposition}\label{prop:beckmann_convex}
+El problema $(\calB)$ es un problema de optimización convexo. Si $t_a$ es estrictamente creciente para todo $a$, entonces $Z(f)$ es estrictamente convexa en $x = \Delta f$.
+\end{proposition}
+
+\begin{proof}
+Cada $T_a$ es convexa (estrictamente convexa si $t_a$ es estrictamente creciente). La función $f \mapsto x_a(f) = \sum_p \delta_{ap} f_p$ es lineal en $f$. La composición de una función convexa con una función lineal es convexa. La suma de funciones convexas es convexa. Dado que $\FeasSet$ es convexo y compacto (Proposición~\upref{prop:omega_compact_convex}), el problema $(\calB)$ es convexo.
+\end{proof}
+
+\begin{corollary}
+Todo mínimo local de $(\calB)$ es global. Si $Z$ es estrictamente convexa en $x$, la solución en flujos de arista es única.
+\end{corollary}
+
+\begin{remark}
+Es crucial notar que el problema de Beckmann \emph{no} minimiza el costo total del sistema $\sum_a x_a t_a(x_a)$, sino la integral $\sum_a \int_0^{x_a} t_a(u) \, du$. Estas dos funciones son distintas en general. La primera es el problema del óptimo social; la segunda es el problema de Beckmann cuya solución es el equilibrio egoísta. Esta distinción es la fuente matemática del Precio de la Anarquía.
+\end{remark}
+
+\subsection{El teorema fundamental de Beckmann}
+
+\begin{theorem}[Beckmann, McGuire y Winsten, 1956]\label{thm:beckmann}
+Sea $(G, t, d)$ una red de transporte con funciones de costo $t_a$ continuas, positivas y estrictamente crecientes. Entonces $f^* \in \FeasSet$ es un equilibrio de Wardrop si y solo si es una solución óptima del problema $(\calB)$.
+\end{theorem}
+
+\begin{proof}
+Demostramos ambas implicaciones.
+
+\medskip
+\noindent\textbf{($\Rightarrow$) Si $f^*$ es equilibrio de Wardrop, entonces $f^*$ minimiza $Z$.}
+
+Sea $f^*$ un equilibrio de Wardrop con flujos en aristas $x^* = \Delta f^*$ y costos de equilibrio $\mu_w^*$. Sea $f \in \FeasSet$ cualquier asignación factible con flujos $x = \Delta f$.
+
+Por convexidad de $T_a$ y el hecho de que $T_a' = t_a$, la desigualdad de subgradiente da:
+\begin{equation}\label{eq:subgradient}
+T_a(x_a) \geq T_a(x_a^*) + t_a(x_a^*)(x_a - x_a^*) \quad \forall a \in A.
+\end{equation}
+Sumando sobre todas las aristas:
+\begin{equation}\label{eq:sum_subgradient}
+Z(f) \geq Z(f^*) + \sum_a t_a(x_a^*)(x_a - x_a^*) = Z(f^*) + R,
+\end{equation}
+donde definimos $R \defeq \sum_a t_a(x_a^*)(x_a - x_a^*)$.
+
+Calculamos $R$ expresándolo en términos de las rutas:
+\begin{align}
+R &= \sum_{a} t_a(x_a^*) \sum_{p \in \calP} \delta_{ap}(f_p - f_p^*) \nonumber\\
+  &= \sum_{p \in \calP} (f_p - f_p^*) \sum_{a} \delta_{ap} t_a(x_a^*) \nonumber\\
+  &= \sum_{p \in \calP} (f_p - f_p^*) C_p(x^*) \nonumber\\
+  &= \sum_{w \in W} \sum_{p \in \calP_w} (f_p - f_p^*) C_p(x^*). \label{eq:R}
+\end{align}
+
+Por las condiciones de Wardrop~\upeqref{eq:wardrop_used}--\upeqref{eq:wardrop_unused}, para todo par $w$ y toda ruta $p \in \calP_w$:
+\[
+C_p(x^*) \geq \mu_w^*, \quad \text{con igualdad si } f_p^* > 0.
+\]
+Por tanto:
+\begin{align}
+\sum_{p \in \calP_w} (f_p - f_p^*) C_p(x^*) &\geq \sum_{p \in \calP_w} (f_p - f_p^*) \mu_w^* = \mu_w^* \left(\sum_{p \in \calP_w} f_p - \sum_{p \in \calP_w} f_p^*\right) \nonumber\\
+&= \mu_w^*(d_w - d_w) = 0. \label{eq:R_nonneg}
+\end{align}
+Combinando~\upeqref{eq:sum_subgradient},~\upeqref{eq:R} y~\upeqref{eq:R_nonneg}: $Z(f) \geq Z(f^*)$ para todo $f \in \FeasSet$.
+
+\medskip
+\noindent\textbf{($\Leftarrow$) Si $f^*$ minimiza $Z$, entonces $f^*$ es equilibrio de Wardrop.}
+
+Sea $f^*$ una solución óptima de $(\calB)$. Dado que $\FeasSet$ es un poliedro convexo y $Z$ es diferenciable y convexa, las condiciones de Karush-Kuhn-Tucker (KKT) son necesarias y suficientes para la optimalidad. El lagrangiano del problema es:
+\[
+\mathcal{L}(f, \mu, \nu) = Z(f) - \sum_{w} \mu_w \left(\sum_{p \in \calP_w} f_p - d_w\right) - \sum_p \nu_p f_p,
+\]
+donde $\mu_w \in \R$ son los multiplicadores de las restricciones de demanda y $\nu_p \geq 0$ son los multiplicadores de no negatividad.
+
+Las condiciones KKT son:
+\[
+\frac{\partial Z}{\partial f_p}\bigg|_{f^*} = \mu_w + \nu_p, \quad \nu_p \geq 0, \quad \nu_p f_p^* = 0 \quad \forall p \in \calP_w, \forall w \in W.
+\]
+Calculamos el gradiente:
+\begin{align}
+\frac{\partial Z}{\partial f_p}\bigg|_{f^*} &= \sum_{a} \frac{\partial T_a(x_a)}{\partial x_a} \cdot \frac{\partial x_a}{\partial f_p} = \sum_a t_a(x_a^*) \delta_{ap} = C_p(x^*). \label{eq:gradient}
+\end{align}
+Por tanto las condiciones KKT se convierten en:
+\[
+C_p(x^*) = \mu_w + \nu_p, \quad \nu_p \geq 0, \quad \nu_p f_p^* = 0.
+\]
+Si $f_p^* > 0$: $\nu_p = 0$, por lo que $C_p(x^*) = \mu_w$.\\
+Si $f_p^* = 0$: $\nu_p \geq 0$, por lo que $C_p(x^*) = \mu_w + \nu_p \geq \mu_w$.
+
+Estas son exactamente las condiciones de Wardrop~\upeqref{eq:wardrop_used}--\upeqref{eq:wardrop_unused}.
+\end{proof}
+
+\begin{remark}[Significado del teorema]
+El Teorema~\upref{thm:beckmann} es la piedra angular del análisis computacional del equilibrio de tráfico. Su importancia es doble:
+\begin{enumerate}
+    \item \textbf{Teórica:} reduce el problema de punto fijo (el equilibrio de Wardrop) a un problema de optimización convexa, para el cual existe una teoría completa de existencia, unicidad y optimalidad.
+    \item \textbf{Computacional:} permite usar el amplio arsenal de algoritmos de optimización convexa (métodos de punto interior, algoritmos de Frank-Wolfe, etc.) para calcular el equilibrio.
+\end{enumerate}
+\end{remark}

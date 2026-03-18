@@ -1,0 +1,47 @@
+%	vim:foldmethod=marker filetype=tex
+
+\newcommand{\mybar}{|}
+\newlength{\dummylength}
+\newcommand{\dummycommand}{}
+
+\newcommand\upref[1]{{\upshape\ref{#1}}}
+\newcommand\upeqref[1]{{\upshape\eqref{#1}}}
+
+%%% Conjuntos numéricos
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\K}{\mathbb{K}}
+
+%%% Espacios del modelo de tráfico
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calSO}{\mathcal{SO}}
+\newcommand{\calI}{\mathcal{I}}
+
+%%% El conjunto factible
+\newcommand{\FeasSet}{\Omega}
+
+%%% Operadores de tráfico
+\newcommand{\TC}{\mathrm{TC}}
+\newcommand{\PoA}{\mathrm{PoA}}
+\newcommand{\UE}{\mathrm{UE}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\BPR}{\mathrm{BPR}}
+\newcommand{\CMS}{\mathrm{CMS}}
+
+%%% Notación de grafos
+\newcommand{\tail}{\mathrm{tail}}
+\newcommand{\head}{\mathrm{head}}
+
+%%% Símbolo de definición
+\newcommand{\defeq}{\coloneqq}
+
+%%% Indicatriz
+\newcommand{\ind}[1]{\mathbf{1}_{[#1]}}
+
+%%% Normas y producto interno
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\inner}[2]{\left\langle #1,\, #2 \right\rangle}

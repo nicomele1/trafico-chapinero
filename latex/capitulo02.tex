@@ -1,0 +1,114 @@
+\Chapter{El modelo de asignación de tráfico}
+
+\section{La función de costo de viaje}
+
+\subsection{Propiedades generales}
+
+\datebox{2026}
+
+\begin{definition}[Función de costo de arista]
+Una \emph{función de costo de arista} es una función $t_a : \R_+ \to \R_+$ que asigna a cada nivel de flujo $x_a \geq 0$ el tiempo de viaje $t_a(x_a)$ en la arista $a$. Se asume que $t_a$ es:
+\begin{enumerate}
+    \item Continua en $[0, +\infty)$;
+    \item Estrictamente positiva: $t_a(x_a) > 0$ para todo $x_a \geq 0$;
+    \item No decreciente: $x_a \leq y_a \implies t_a(x_a) \leq t_a(y_a)$.
+\end{enumerate}
+La hipótesis de monotonicidad refleja el fenómeno de congestión: a mayor flujo, mayor tiempo de viaje.
+\end{definition}
+
+\begin{definition}[Costo de ruta]
+Dado el vector de flujos en aristas $x \in \R^m_+$, el \emph{costo de la ruta} $p \in \calP_w$ es:
+\[
+C_p(x) \defeq \sum_{a \in A} \delta_{ap} \, t_a(x_a) = \sum_{a \in p} t_a(x_a).
+\]
+\end{definition}
+
+\subsection{La función BPR}
+
+La función más utilizada en la práctica es la propuesta por el Bureau of Public Roads de los Estados Unidos en 1964.
+
+\begin{definition}[Función BPR]
+La \emph{función BPR} (Bureau of Public Roads, 1964) para la arista $a$ es:
+\[
+t_a(x_a) \defeq t_a^0 \left(1 + \alpha \left(\frac{x_a}{c_a}\right)^\beta \right),
+\]
+donde:
+\begin{itemize}
+    \item $t_a^0 > 0$ es el \emph{tiempo de viaje libre} (free-flow travel time), el tiempo de recorrer la arista en ausencia de tráfico;
+    \item $c_a > 0$ es la \emph{capacidad} de la arista, medida en vehículos por hora;
+    \item $\alpha > 0$ y $\beta > 1$ son parámetros calibrados empíricamente. Los valores estándar son $\alpha = 0.15$ y $\beta = 4$.
+\end{itemize}
+\end{definition}
+
+\begin{proposition}[Propiedades analíticas de la BPR]\label{prop:bpr_properties}
+La función BPR satisface las siguientes propiedades para todo $x_a \geq 0$:
+\begin{enumerate}
+    \item $t_a(0) = t_a^0$: el tiempo libre es la cota inferior del tiempo de viaje.
+    \item $t_a'(x_a) = \dfrac{\alpha \beta \, t_a^0}{c_a^\beta} \, x_a^{\beta-1} > 0$: estrictamente creciente.
+    \item $t_a''(x_a) = \dfrac{\alpha \beta (\beta-1) \, t_a^0}{c_a^\beta} \, x_a^{\beta-2} > 0$ para $x_a > 0$: estrictamente convexa.
+    \item $t_a(x_a) \to +\infty$ cuando $x_a \to +\infty$: coerciva.
+    \item $\lim_{x_a \to 0^+} t_a''(x_a) = 0$ para $\beta > 2$: la función es ``suave'' en el origen.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Inmediata por diferenciación directa de $t_a(x_a) = t_a^0 + t_a^0 \alpha c_a^{-\beta} x_a^\beta$.
+\end{proof}
+
+\begin{proposition}[Integral de la BPR]\label{prop:bpr_integral}
+La antiderivada de $t_a$ admite la expresión cerrada:
+\[
+T_a(x_a) \defeq \int_0^{x_a} t_a(u) \, du = t_a^0 x_a + \frac{\alpha \, t_a^0}{(\beta+1) \, c_a^\beta} \, x_a^{\beta+1}.
+\]
+Para los parámetros estándar $\alpha = 0.15$, $\beta = 4$:
+\[
+T_a(x_a) = t_a^0 x_a + \frac{0.03 \, t_a^0}{c_a^4} \, x_a^5.
+\]
+\end{proposition}
+
+\begin{proof}
+Integración directa:
+\[
+\int_0^{x_a} t_a^0\left(1 + \alpha \frac{u^\beta}{c_a^\beta}\right) du = t_a^0 x_a + \frac{\alpha \, t_a^0}{c_a^\beta} \cdot \frac{x_a^{\beta+1}}{\beta+1}. \qedhere
+\]
+\end{proof}
+
+\begin{corollary}
+$T_a$ es estrictamente convexa, ya que $T_a''(x_a) = t_a'(x_a) > 0$ para $x_a > 0$.
+\end{corollary}
+
+\begin{remark}
+La convexidad de $T_a$ es la propiedad central que permite formular el problema de equilibrio como un problema de minimización convexo, como veremos en el Capítulo~\ref{cap:beckmann}.
+\end{remark}
+
+\subsection{El costo marginal social}
+
+\begin{definition}[Costo marginal social]
+El \emph{costo marginal social} (CMS) de añadir un vehículo a la arista $a$ cuando el flujo actual es $x_a$ es:
+\[
+\CMS_a(x_a) \defeq \frac{d}{dx_a}\left[ x_a \cdot t_a(x_a) \right] = t_a(x_a) + x_a \cdot t_a'(x_a).
+\]
+\end{definition}
+
+\begin{definition}[Externalidad de congestión]
+La \emph{externalidad de congestión} en la arista $a$ es:
+\[
+e_a(x_a) \defeq \CMS_a(x_a) - t_a(x_a) = x_a \cdot t_a'(x_a).
+\]
+Representa el costo adicional que el conductor marginal impone al resto de los usuarios de la arista.
+\end{definition}
+
+\begin{proposition}
+Para la función BPR con parámetros $\alpha$ y $\beta$:
+\[
+e_a(x_a) = \frac{\alpha \beta \, t_a^0}{c_a^\beta} \, x_a^\beta.
+\]
+Para $\alpha = 0.15$, $\beta = 4$:
+\[
+e_a(x_a) = \frac{0.6 \, t_a^0}{c_a^4} \, x_a^4.
+\]
+\end{proposition}
+
+\begin{proof}
+$e_a(x_a) = x_a \cdot t_a'(x_a) = x_a \cdot \frac{\alpha \beta \, t_a^0}{c_a^\beta} x_a^{\beta-1} = \frac{\alpha \beta \, t_a^0}{c_a^\beta} x_a^\beta$.
+\end{proof}

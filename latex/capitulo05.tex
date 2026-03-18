@@ -1,0 +1,103 @@
+\Chapter{El óptimo social y las externalidades de congestión}
+
+\section{El problema del óptimo social}
+
+\subsection{Formulación}
+
+\datebox{2026}
+
+\begin{definition}[Costo total del sistema]
+El \emph{costo total del sistema} dado el vector de flujos $x \in \R^m_+$ es:
+\[
+\TC(x) \defeq \sum_{a \in A} x_a \cdot t_a(x_a).
+\]
+\end{definition}
+
+\begin{definition}[Problema del óptimo social]\label{def:social_optimum}
+El \emph{problema del óptimo social} es:
+\begin{equation}\label{eq:social_optimum}
+(\calSO) \quad \min_{f \in \FeasSet} \; \TC(f) \defeq \sum_{a \in A} x_a(f) \cdot t_a(x_a(f)).
+\end{equation}
+Una solución $f^{\SO}$ del problema $(\calSO)$ se denomina una \emph{asignación socialmente óptima}, y los flujos inducidos $x^{\SO} = \Delta f^{\SO}$ se denominan \emph{flujos del óptimo social}.
+\end{definition}
+
+\begin{proposition}\label{prop:so_convex}
+El problema $(\calSO)$ es convexo. Si $2t_a'(x_a) + x_a t_a''(x_a) \geq 0$ para todo $a$ y todo $x_a \geq 0$, entonces $\TC(x)$ es convexo en $x$.
+\end{proposition}
+
+\begin{proof}
+La segunda derivada de $x_a t_a(x_a)$ con respecto a $x_a$ es $2t_a'(x_a) + x_a t_a''(x_a)$. Para la función BPR:
+\[
+2t_a'(x_a) + x_a t_a''(x_a) = \frac{\alpha \beta t_a^0}{c_a^\beta}\left[2 x_a^{\beta-1} + (\beta-1)x_a^{\beta-1}\right] = \frac{\alpha \beta (\beta+1) t_a^0}{c_a^\beta} x_a^{\beta-1} \geq 0.
+\]
+Por tanto $\TC$ es convexo para la BPR.
+\end{proof}
+
+\subsection{Diferencia entre el problema de Beckmann y el óptimo social}
+
+\begin{proposition}[No equivalencia entre UE y SO]\label{prop:ue_ne_so}
+En general, $f^{\UE} \neq f^{\SO}$, es decir, el equilibrio de Wardrop no minimiza el costo total del sistema.
+\end{proposition}
+
+\begin{proof}
+La función objetivo del problema de Beckmann es $Z(f) = \sum_a T_a(x_a)$, con $T_a'(x_a) = t_a(x_a)$.
+
+La función objetivo del óptimo social es $\TC(f) = \sum_a x_a t_a(x_a)$, cuya derivada con respecto a $x_a$ es el costo marginal social $\CMS_a(x_a) = t_a(x_a) + x_a t_a'(x_a)$.
+
+Las condiciones KKT del óptimo social son:
+\[
+\sum_{a \in p} \CMS_a(x_a^{\SO}) \geq \lambda_w \quad \forall p \in \calP_w,
+\]
+con igualdad si $f_p^{\SO} > 0$. Esto es un ``equilibrio de Wardrop'' con función de costo $\tilde{t}_a(x_a) = \CMS_a(x_a) = t_a(x_a) + x_a t_a'(x_a)$, que difiere de $t_a(x_a)$ siempre que $x_a > 0$ y $t_a'(x_a) > 0$.
+
+El equilibrio de Wardrop estándar usa la función de costo $t_a$. El óptimo social corresponde a un equilibrio de Wardrop con función de costo $\CMS_a$. Dado que $\CMS_a \neq t_a$ en general, $f^{\UE} \neq f^{\SO}$ en general.
+\end{proof}
+
+\begin{example}[Red de Pigou]\label{ex:pigou}
+Considérese la red más simple: dos aristas paralelas de $s$ a $d$, con demanda $d_w = 1$.
+\begin{itemize}
+    \item Arista 1: $t_1(x) = x$ (costo lineal, congestible).
+    \item Arista 2: $t_2(x) = 1$ (costo constante, no congestible).
+\end{itemize}
+\textbf{Equilibrio de Wardrop:} En el equilibrio, $t_1(x_1) = t_2(x_2)$, con $x_1 + x_2 = 1$. Esto da $x_1 = 1, x_2 = 0$ y $\TC(x^{\UE}) = 1 \cdot 1 + 0 \cdot 1 = 1$.
+
+\textbf{Óptimo social:} $\min_{x_1 \geq 0} x_1^2 + (1-x_1)$ da $x_1^* = 1/2$, con $\TC(x^{\SO}) = (1/2)^2 + (1/2) = 3/4$.
+
+El $\PoA = 1 / (3/4) = 4/3$. Esta red es el \emph{ejemplo de Pigou} \cite{Pigou1920}, el más simple que exhibe ineficiencia del equilibrio egoísta.
+\end{example}
+
+\section{El peaje de Pigou-Knight}
+
+\begin{theorem}[Internalización de externalidades]\label{thm:pigou_toll}
+Sea $x^{\SO}$ una solución del problema del óptimo social. Definamos el \emph{peaje de Pigou} para la arista $a$ como:
+\[
+\tau_a^* \defeq x_a^{\SO} \cdot t_a'(x_a^{\SO}) = e_a(x_a^{\SO}).
+\]
+Entonces el equilibrio de Wardrop en la red con funciones de costo modificadas $\tilde{t}_a(x_a) \defeq t_a(x_a) + \tau_a^*$ coincide con $x^{\SO}$.
+\end{theorem}
+
+\begin{proof}
+Con las funciones de costo modificadas $\tilde{t}_a$, el costo de la ruta $p$ en el flujo $x^{\SO}$ es:
+\[
+\tilde{C}_p(x^{\SO}) = \sum_{a \in p} \tilde{t}_a(x_a^{\SO}) = \sum_{a \in p} \left[ t_a(x_a^{\SO}) + x_a^{\SO} t_a'(x_a^{\SO}) \right] = \sum_{a \in p} \CMS_a(x_a^{\SO}).
+\]
+Las condiciones KKT del problema $(\calSO)$ evaluadas en $x^{\SO}$ establecen que:
+\[
+\sum_{a \in p} \CMS_a(x_a^{\SO}) \geq \lambda_w \quad \forall p \in \calP_w,
+\]
+con igualdad si $f_p^{\SO} > 0$. Estas son exactamente las condiciones de Wardrop para la red con costos $\tilde{t}_a$. Por tanto, $x^{\SO}$ es el equilibrio de Wardrop de la red con peajes $\tau^*$.
+\end{proof}
+
+\begin{corollary}
+Para la función BPR con parámetros $\alpha$ y $\beta$, el peaje de Pigou en la arista $a$ es:
+\[
+\tau_a^* = \frac{\alpha \beta \, t_a^0}{c_a^\beta} (x_a^{\SO})^\beta.
+\]
+Para $\alpha = 0.15$, $\beta = 4$: $\tau_a^* = \dfrac{0.6 \, t_a^0}{c_a^4} (x_a^{\SO})^4$.
+\end{corollary}
+
+\begin{remark}[Significado económico]
+El peaje de Pigou $\tau_a^* = e_a(x_a^{\SO})$ cobra a cada conductor exactamente la externalidad que impone al resto. Al pagar este precio, el conductor ``internaliza'' el costo externo, y su cálculo egoísta coincide con el social. El resultado es que el equilibrio descentralizado reproduce el óptimo centralizado, sin necesidad de un coordinador.
+
+En la práctica, implementar el peaje de Pigou exacto requiere conocer $x^{\SO}$, lo cual es difícil. Los esquemas de peaje reales (como el peaje de congestión de Londres o Estocolmo) son aproximaciones a este ideal teórico.
+\end{remark}

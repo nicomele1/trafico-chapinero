@@ -1,0 +1,253 @@
+\documentclass{book}
+% \documentclass[draft]{book}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage[svgnames,dvipsnames]{xcolor}
+\usepackage{afterpage}
+\usepackage[marginparsep=0.5cm, marginparwidth=2cm]{geometry}
+\usepackage{enumerate}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multicol}
+\usepackage{caption}
+\captionsetup{margin=10pt,font=small}
+\usepackage[shortlabels]{enumitem}
+\usepackage{array}
+\usepackage[color=yellow!30, linecolor=orange, colorinlistoftodos]{todonotes}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{booktabs}
+
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
+\usetikzlibrary{tikzmark}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz-externalized/]
+\tikzset{external/only named=true}
+
+\usepackage{fancyhdr}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{verbatim}
+\usepackage{stackrel}
+\usepackage{makeidx}
+\usepackage{marginnote}
+\usepackage[breakable]{tcolorbox}
+\tcbset{shield externalize}
+\tcbuselibrary{theorems}
+\usepackage{colortbl}
+\setcounter{MaxMatrixCols}{20}
+
+\input{scriptTrafico.def}
+
+
+%%% {{{    Backgroundpicture
+\newcommand{\draftcolor}{lightgrey}
+\newfont\cminch{cminch scaled 1000}
+\usepackage{eso-pic}
+\makeatletter
+   \newcommand\BackgroundPicture{%
+      \setlength{\unitlength}{1pt}%
+      \put(0,\strip@pt\paperheight){%
+      \parbox[t][\paperheight]{\paperwidth}{%
+         \vfill
+         \centering\rotatebox{45}{\textcolor{\draftcolor}{\cminch DRAFT}}
+         \vfill
+         }
+      }
+   }
+\makeatother
+%%%}}}
+
+\newcommand{\publish}{0}
+% \renewcommand{\publish}{1}
+% \renewcommand{\publish}{2}
+
+\ifthenelse{\equal{\publish}{0}}%
+   {
+   \usepackage[notref,notcite]{showkeys}
+   \newcommand{\questionbox}[1]{\marginnote{#1}}
+   \newcommand{\todobox}[1]{\marginpar{\color{darkred}{#1} }}
+   \newcommand{\datebox}[1]{{\color{blue}\marginpar{\fbox{#1}} }}%
+   \newcommand\cvsnote{}
+   }%
+   {\ifthenelse{\equal{\publish}{1}}{%
+   \presetkeys{todonotes}{disable}{}
+   \renewcommand{\listoftodos}{}
+   \newcommand{\questionbox}[1]{ }%
+   \newcommand{\todobox}[1]{}
+   \newcommand{\datebox}[1]{{\blue\marginpar{\fbox{#1}} }}%
+   \newcommand\cvsnote{}
+   \AddToShipoutPicture{\BackgroundPicture}
+   }%
+   {
+   \presetkeys{todonotes}{disable}{}
+   \renewcommand{\listoftodos}{}
+   \newcommand{\questionbox}[1]{ }%
+   \newcommand\cvsnote{}
+   \newcommand{\todobox}[1]{}
+   \newcommand{\datebox}[1]{}%
+   }%
+}
+
+\newboolean{BW}
+\setboolean{BW}{false}
+
+%%% {{{ pdf - related & hyperref
+\ifthenelse{\boolean{BW}}
+{%
+\definecolor{pdflinkcolor}{rgb}{0,0,0}
+\definecolor{pdfcitecolor}{rgb}{0,0,0}
+\definecolor{pdfanchorcolor}{rgb}{0,0,0}
+\definecolor{pdfurlcolor}{rgb}{0,0,0}
+\definecolor{pdfpagecolor}{rgb}{0,0,0}
+\definecolor{pdffilecolor}{rgb}{0,0,0}
+}
+{%
+\definecolor{pdflinkcolor}{rgb}{.1,.1,.6}
+\definecolor{pdfcitecolor}{rgb}{.6,.1,.1}
+\definecolor{pdfanchorcolor}{rgb}{0,1,0}
+\definecolor{pdfurlcolor}{rgb}{.1,.6,.1}
+\definecolor{pdfpagecolor}{rgb}{0,0,1}
+\definecolor{pdffilecolor}{rgb}{1,0,0}
+}
+
+\usepackage[%
+   breaklinks,
+   colorlinks=true,
+   citecolor=pdfcitecolor,
+   linkcolor=pdflinkcolor,
+   anchorcolor=pdfanchorcolor,
+   urlcolor=pdfurlcolor,
+   filecolor=pdffilecolor,
+   pagebackref=false,
+   pdfauthor={},
+   pdftitle={Teoría Matemática de la Asignación de Tráfico}]{hyperref}
+%%%}}}
+
+
+%%% {{{    header and footer
+\pagestyle{fancy}
+\setlength\headheight{13pt}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{Capítulo \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+\fancyhead[LO]{\slshape\leftmark}
+\fancyhead[RE]{\slshape\rightmark}
+\fancyhead[RO]{\thepage}
+\fancyhead[LE]{\thepage}
+%%%}}}
+
+
+%%% {{{    Teoremas
+\theoremstyle{plain}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{corollary}[theorem]{Corolario}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{example}[theorem]{Ejemplo}
+\newtheorem{remark}[theorem]{Observación}
+
+\theoremstyle{remark}
+\newtheorem*{notation}{Notación}
+%%%}}}
+
+
+%%% {{{    Anotaciones por autor (igual que Operadores-II)
+\newcommand{\juanpablotodo}[2][]{\tikzexternaldisable\todo[color=red!20, linecolor=red]{#2}\tikzexternalenable}
+\newcommand{\nicolastodo}[2][]{\tikzexternaldisable\todo[color=green!20, linecolor=teal]{#2}\tikzexternalenable}
+\newcommand{\camilotodo}[2][]{\tikzexternaldisable\todo[color=pink!20, linecolor=pink]{#2}\tikzexternalenable}
+\newcommand{\alejandrotodo}[2][]{\tikzexternaldisable\todo[color=cyan!20, linecolor=cyan]{#2}\tikzexternalenable}
+\newcommand{\estebantodo}[2][]{\tikzexternaldisable\todo[color=orange!20, linecolor=orange]{#2}\tikzexternalenable}
+
+\newcommand{\juanpablo}[1]{{\color{red}\textbf{#1} }}
+\newcommand{\nicolas}[1]{{\color{Green}\textbf{#1} }}
+\newcommand{\camilo}[1]{{\color{magenta}\textbf{#1} }}
+\newcommand{\alejandro}[1]{{\color{cyan!80!black}\textbf{#1} }}
+\newcommand{\esteban}[1]{{\color{BrickRed}\textbf{#1} }}
+%%%}}}
+
+
+%%% {{{    Índice
+\newcommand{\aI}[1]{\hyperpage{#1}}
+\newcommand{\aII}[1]{ {\it{\hyperpage{#1}} }}
+\newcommand{\aIindex}[2][aI]{\index{\detokenize{#2}|#1}}
+\newcommand{\aIIindex}[2][aII]{\index{\detokenize{#2}|#1}}
+%%%}}}
+
+
+\setlength{\parindent}{0pt}
+\flushbottom
+
+\newcommand\Chapter[1]{\chapter{#1}\thispagestyle{fancy}}
+\newcommand{\define}[1]{\textbf{#1}\index{#1}}
+\newcommand\vorlesungende{\hrule}
+\renewcommand\vorlesungende{}
+\newcommand\indexx[1]{#1\index{#1}}
+
+\title{Teoría Matemática de la Asignación de Tráfico:\\
+Equilibrio de Wardrop, Óptimo Social\\
+y el Precio de la Anarquía}
+\author{}
+
+\includeonly{
+   capitulo01,
+   capitulo02,
+   capitulo03,
+   capitulo04,
+   capitulo05,
+   capitulo06
+}
+
+\makeindex
+
+\begin{document}
+\cvsnote
+\pagestyle{fancy}
+
+\newcommand\fileDate{2026}
+\newcommand\fileName{trafico.tex}
+
+\newcommand{\includefile}[2]{%
+   \renewcommand{\fileName}{#1}
+   \renewcommand{\fileDate}{#2}
+   \include{#1}
+}
+
+\cleardoublepage
+\tableofcontents
+\listoftodos
+
+\includefile{capitulo01}{2026}   % Grafos dirigidos y flujo en redes
+\includefile{capitulo02}{2026}   % El modelo de asignación y la función BPR
+\includefile{capitulo03}{2026}   % El equilibrio de Wardrop
+\includefile{capitulo04}{2026}   % El teorema de Beckmann
+\includefile{capitulo05}{2026}   % El óptimo social y las externalidades
+\includefile{capitulo06}{2026}   % El Precio de la Anarquía
+
+\cleardoublepage
+\thispagestyle{empty}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Referencias}
+\bibliography{biblio}
+\bibliographystyle{alpha}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Índice}
+\printindex
+
+\end{document}
