@@ -1,6 +1,6 @@
 \documentclass{book}
 % \documentclass[draft]{book}
-\usepackage[spanish]{babel}
+\usepackage[english]{babel}
 \usepackage{amsmath,amsthm,amssymb,amsfonts}
 \usepackage{mathtools}
 \usepackage{graphicx}
@@ -48,7 +48,7 @@
 \usepackage{colortbl}
 \setcounter{MaxMatrixCols}{20}
 
-\input{scriptTrafico.def}
+\input{traffic_macros.def}
 
 
 %%% {{{    Backgroundpicture
@@ -132,7 +132,7 @@
    filecolor=pdffilecolor,
    pagebackref=false,
    pdfauthor={},
-   pdftitle={Teoría Matemática de la Asignación de Tráfico}]{hyperref}
+   pdftitle={Mathematical Theory of Traffic Assignment}]{hyperref}
 %%%}}}
 
 
@@ -140,7 +140,7 @@
 \pagestyle{fancy}
 \setlength\headheight{13pt}
 \fancyhf{}
-\renewcommand{\chaptermark}[1]{\markboth{Capítulo \thechapter.\ #1}{}}
+\renewcommand{\chaptermark}[1]{\markboth{Chapter \thechapter.\ #1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
 \fancyhead[LO]{\slshape\leftmark}
 \fancyhead[RE]{\slshape\rightmark}
@@ -149,24 +149,24 @@
 %%%}}}
 
 
-%%% {{{    Teoremas
+%%% {{{    Theorems
 \theoremstyle{plain}
-\newtheorem{theorem}{Teorema}[section]
-\newtheorem{lemma}[theorem]{Lema}
-\newtheorem{proposition}[theorem]{Proposición}
-\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
 
 \theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definición}
-\newtheorem{example}[theorem]{Ejemplo}
-\newtheorem{remark}[theorem]{Observación}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
 
 \theoremstyle{remark}
-\newtheorem*{notation}{Notación}
+\newtheorem*{notation}{Notation}
 %%%}}}
 
 
-%%% {{{    Anotaciones por autor (igual que Operadores-II)
+%%% {{{    Author annotations
 \newcommand{\juanpablotodo}[2][]{\tikzexternaldisable\todo[color=red!20, linecolor=red]{#2}\tikzexternalenable}
 \newcommand{\nicolastodo}[2][]{\tikzexternaldisable\todo[color=green!20, linecolor=teal]{#2}\tikzexternalenable}
 \newcommand{\camilotodo}[2][]{\tikzexternaldisable\todo[color=pink!20, linecolor=pink]{#2}\tikzexternalenable}
@@ -181,7 +181,7 @@
 %%%}}}
 
 
-%%% {{{    Índice
+%%% {{{    Index
 \newcommand{\aI}[1]{\hyperpage{#1}}
 \newcommand{\aII}[1]{ {\it{\hyperpage{#1}} }}
 \newcommand{\aIindex}[2][aI]{\index{\detokenize{#2}|#1}}
@@ -198,18 +198,18 @@
 \renewcommand\vorlesungende{}
 \newcommand\indexx[1]{#1\index{#1}}
 
-\title{Teoría Matemática de la Asignación de Tráfico:\\
-Equilibrio de Wardrop, Óptimo Social\\
-y el Precio de la Anarquía}
+\title{Mathematical Theory of Traffic Assignment:\\
+Wardrop Equilibrium, Social Optimum\\
+and the Price of Anarchy}
 \author{}
 
 \includeonly{
-   capitulo01,
-   capitulo02,
-   capitulo03,
-   capitulo04,
-   capitulo05,
-   capitulo06
+   chapter01,
+   chapter02,
+   chapter03,
+   chapter04,
+   chapter05,
+   chapter06
 }
 
 \makeindex
@@ -219,7 +219,7 @@ y el Precio de la Anarquía}
 \pagestyle{fancy}
 
 \newcommand\fileDate{2026}
-\newcommand\fileName{trafico.tex}
+\newcommand\fileName{traffic.tex}
 
 \newcommand{\includefile}[2]{%
    \renewcommand{\fileName}{#1}
@@ -231,23 +231,23 @@ y el Precio de la Anarquía}
 \tableofcontents
 \listoftodos
 
-\includefile{capitulo01}{2026}   % Grafos dirigidos y flujo en redes
-\includefile{capitulo02}{2026}   % El modelo de asignación y la función BPR
-\includefile{capitulo03}{2026}   % El equilibrio de Wardrop
-\includefile{capitulo04}{2026}   % El teorema de Beckmann
-\includefile{capitulo05}{2026}   % El óptimo social y las externalidades
-\includefile{capitulo06}{2026}   % El Precio de la Anarquía
+\includefile{chapter01}{2026}   % Directed graphs and network flow
+\includefile{chapter02}{2026}   % Assignment model and BPR cost
+\includefile{chapter03}{2026}   % Wardrop equilibrium
+\includefile{chapter04}{2026}   % Beckmann theorem
+\includefile{chapter05}{2026}   % Social optimum and externalities
+\includefile{chapter06}{2026}   % Price of anarchy
 
 \cleardoublepage
 \thispagestyle{empty}
 
 \phantomsection
-\addcontentsline{toc}{chapter}{Referencias}
+\addcontentsline{toc}{chapter}{References}
 \bibliography{biblio}
 \bibliographystyle{alpha}
 
 \phantomsection
-\addcontentsline{toc}{chapter}{Índice}
+\addcontentsline{toc}{chapter}{Index}
 \printindex
 
 \end{document}

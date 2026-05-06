@@ -1,0 +1,57 @@
+\Chapter{Wardrop Equilibrium}
+
+\section{Definition and properties}
+
+\subsection{Wardrop's principles}
+
+\datebox{2026}
+
+\begin{definition}[Wardrop's principles]\label{def:wardrop_principles}
+\begin{enumerate}
+    \item \textbf{Principle I, user equilibrium:} no individual traveler can reduce travel time by changing routes unilaterally.
+    \item \textbf{Principle II, social optimum:} average travel time per vehicle is minimized.
+\end{enumerate}
+\end{definition}
+
+\subsection{Formal definition}
+
+\begin{definition}[Wardrop equilibrium]\label{def:wardrop_equilibrium}
+A feasible assignment $f^* \in \FeasSet$ is a Wardrop equilibrium if for every pair $w \in W$ there is a scalar $\mu_w^*$ such that
+\begin{align}
+f_p^* > 0 &\implies C_p(x^*) = \mu_w^*, \label{eq:wardrop_used}\\
+f_p^* = 0 &\implies C_p(x^*) \geq \mu_w^*, \label{eq:wardrop_unused}
+\end{align}
+where $x^* = \Delta f^*$.
+\end{definition}
+
+\begin{definition}[Complementarity form]
+The Wardrop conditions can be written as
+\[
+f_p^* \geq 0,\quad C_p(x^*)-\mu_w^* \geq 0,\quad
+f_p^*\left(C_p(x^*)-\mu_w^*\right)=0.
+\]
+\end{definition}
+
+\subsection{Connection with Nash equilibrium}
+
+\begin{definition}[Congestion game]
+A congestion game has players, available routes, and costs induced by the congestion on the edges used by those routes.
+\end{definition}
+
+\begin{definition}[Nash equilibrium]
+A strategy profile is a Nash equilibrium if no player can reduce cost by changing strategy alone.
+\end{definition}
+
+\begin{theorem}[Wardrop as a Nash limit]\label{thm:wardrop_nash}
+When the number of travelers grows and each traveler controls an infinitesimal fraction of total demand, accumulation points of Nash equilibria satisfy Wardrop's conditions.
+\end{theorem}
+
+\section{Existence and uniqueness}
+
+\begin{theorem}[Existence]\label{thm:existence}
+If all edge costs are continuous and $\FeasSet$ is nonempty, a Wardrop equilibrium exists.
+\end{theorem}
+
+\begin{theorem}[Uniqueness of edge flows]\label{thm:uniqueness}
+If all edge costs are strictly increasing, the equilibrium edge-flow vector is unique. Route flows may not be unique.
+\end{theorem}

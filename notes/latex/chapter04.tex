@@ -1,0 +1,38 @@
+\Chapter{The Beckmann Theorem}\label{cap:beckmann}
+
+\section{The Beckmann problem}
+
+\subsection{Formulation}
+
+\datebox{2026}
+
+\begin{definition}[Beckmann problem]\label{def:beckmann}
+The Beckmann problem is
+\[
+(\mathcal{B}) \quad \min_{f \in \FeasSet}
+Z(f) \defeq \sum_{a \in A} T_a(x_a(f))
+= \sum_{a \in A}\int_0^{x_a(f)}t_a(u)\,du.
+\]
+\end{definition}
+
+\begin{proposition}\label{prop:beckmann_convex}
+The Beckmann problem is convex. If each $t_a$ is strictly increasing, then $Z$ is strictly convex in edge flows.
+\end{proposition}
+
+\begin{remark}
+The Beckmann objective is not the total system cost $\sum_a x_a t_a(x_a)$. This distinction separates user equilibrium from social optimum.
+\end{remark}
+
+\subsection{Main theorem}
+
+\begin{theorem}[Beckmann, McGuire, and Winsten, 1956]\label{thm:beckmann}
+For continuous, positive, and strictly increasing edge costs, $f^* \in \FeasSet$ is a Wardrop equilibrium if and only if it solves the Beckmann problem.
+\end{theorem}
+
+\begin{proof}
+The proof follows from convexity and the KKT conditions. The gradient of $Z$ with respect to a route flow is the route cost:
+\[
+\frac{\partial Z}{\partial f_p} = \sum_a t_a(x_a)\delta_{ap} = C_p(x).
+\]
+The KKT conditions are therefore exactly the Wardrop complementarity conditions.
+\end{proof}

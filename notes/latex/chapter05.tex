@@ -1,0 +1,61 @@
+\Chapter{Social Optimum and Congestion Externalities}
+
+\section{The social optimum problem}
+
+\subsection{Formulation}
+
+\datebox{2026}
+
+\begin{definition}[Total system cost]
+The total system cost for edge flows $x$ is
+\[
+\TC(x) \defeq \sum_{a \in A} x_a t_a(x_a).
+\]
+\end{definition}
+
+\begin{definition}[Social optimum]\label{def:social_optimum}
+The social optimum problem is
+\[
+(\calSO) \quad \min_{f \in \FeasSet}\TC(f)
+\defeq \sum_{a \in A}x_a(f)t_a(x_a(f)).
+\]
+\end{definition}
+
+\begin{proposition}\label{prop:so_convex}
+For BPR costs, the social optimum objective is convex in edge flows.
+\end{proposition}
+
+\subsection{Difference between Beckmann and social optimum}
+
+\begin{proposition}[UE and SO are not equivalent]\label{prop:ue_ne_so}
+In general, the Wardrop equilibrium does not minimize total system cost.
+\end{proposition}
+
+\begin{proof}
+The Beckmann objective has derivative $t_a(x_a)$. The total system cost has derivative
+\[
+\CMS_a(x_a) = t_a(x_a) + x_a t_a'(x_a).
+\]
+These are different whenever congestion is present.
+\end{proof}
+
+\begin{example}[Pigou network]\label{ex:pigou}
+Consider two parallel edges from $s$ to $d$ with demand $1$: one edge has $t_1(x)=x$, and the other has $t_2(x)=1$. The Wardrop equilibrium has total cost $1$, while the social optimum has total cost $3/4$. The resulting price of anarchy is $4/3$.
+\end{example}
+
+\section{Pigou-Knight toll}
+
+\begin{theorem}[Internalizing externalities]\label{thm:pigou_toll}
+Let $x^{\SO}$ solve the social optimum problem. Define
+\[
+\tau_a^* \defeq x_a^{\SO}t_a'(x_a^{\SO}).
+\]
+Then the Wardrop equilibrium with modified costs $t_a(x_a)+\tau_a^*$ coincides with $x^{\SO}$.
+\end{theorem}
+
+\begin{corollary}
+For BPR costs,
+\[
+\tau_a^* = \frac{\alpha\beta t_a^0}{c_a^\beta}(x_a^{\SO})^\beta.
+\]
+\end{corollary}

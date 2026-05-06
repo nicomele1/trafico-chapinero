@@ -1,0 +1,58 @@
+\Chapter{The Price of Anarchy}
+
+\section{Definition and basic properties}
+
+\datebox{2026}
+
+\begin{definition}[Price of anarchy]\label{def:poa}
+The price of anarchy of an instance $(G,t,d)$ is
+\[
+\PoA(G,t,d) \defeq \frac{\TC(x^{\UE})}{\TC(x^{\SO})}.
+\]
+\end{definition}
+
+\begin{remark}
+Always $\PoA \geq 1$ because $x^{\SO}$ minimizes total system cost.
+\end{remark}
+
+\section{The Roughgarden-Tardos $\gamma$ function}
+
+\begin{definition}[$\gamma$ value]\label{def:gamma}
+For a cost function $t$,
+\[
+\gamma(t) \defeq
+\sup_{\substack{x,y \geq 0 \\ x t(x)>0}}
+\frac{x t(x)-x t(y)}{x t(x)}.
+\]
+\end{definition}
+
+\section{The Roughgarden-Tardos bound}
+
+\begin{theorem}[Roughgarden and Tardos, 2002]\label{thm:roughgarden_tardos}
+For a class of costs $\calC$ with $\gamma(\calC)<1$,
+\[
+\TC(x^{\UE}) \leq \frac{1}{1-\gamma(\calC)}\TC(x^{\SO}).
+\]
+\end{theorem}
+
+\section{The $\gamma$ value for BPR costs}
+
+\begin{theorem}[Roughgarden, 2003]\label{thm:gamma_bpr}
+For BPR costs with exponent $\beta$,
+\[
+\gamma(\calC_\beta)=\frac{\beta^\beta}{(\beta+1)^{\beta+1}}.
+\]
+\end{theorem}
+
+\begin{corollary}[PoA bound for BPR]\label{cor:poa_bpr}
+For $\beta=4$,
+\[
+\PoA(\calC_4) \leq \frac{3125}{2869} \approx 1.089.
+\]
+\end{corollary}
+
+\section{Application note}
+
+\begin{remark}
+Do not report project-specific PoA values until the computational workflow and input data are reproducible.
+\end{remark}

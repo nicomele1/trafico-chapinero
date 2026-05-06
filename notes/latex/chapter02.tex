@@ -1,0 +1,64 @@
+\Chapter{The Traffic Assignment Model}
+
+\section{Travel-time cost functions}
+
+\subsection{General properties}
+
+\datebox{2026}
+
+\begin{definition}[Edge cost function]
+An \emph{edge cost function} is a function $t_a : \R_+ \to \R_+$ that assigns a travel time to an edge flow $x_a$.
+\end{definition}
+
+\begin{definition}[Route cost]
+Given edge flows $x$, the cost of route $p$ is
+\[
+C_p(x) \defeq \sum_{a \in A} \delta_{ap} t_a(x_a).
+\]
+\end{definition}
+
+\subsection{The BPR function}
+
+\begin{definition}[BPR function]
+The Bureau of Public Roads cost function for edge $a$ is
+\[
+t_a(x_a) \defeq t_a^0 \left(1 + \alpha \left(\frac{x_a}{c_a}\right)^\beta \right),
+\]
+where $t_a^0$ is free-flow travel time, $c_a$ is capacity, and $\alpha,\beta$ are parameters.
+\end{definition}
+
+\begin{proposition}[BPR integral]\label{prop:bpr_integral}
+The antiderivative used in the Beckmann formulation is
+\[
+T_a(x_a) \defeq \int_0^{x_a} t_a(u) \, du
+= t_a^0 x_a + \frac{\alpha t_a^0}{(\beta+1)c_a^\beta}x_a^{\beta+1}.
+\]
+\end{proposition}
+
+\begin{proof}
+This follows by direct integration of the BPR function.
+\end{proof}
+
+\subsection{Marginal social cost}
+
+\begin{definition}[Marginal social cost]
+The marginal social cost on edge $a$ is
+\[
+\CMS_a(x_a) \defeq \frac{d}{dx_a}\left[x_a t_a(x_a)\right]
+= t_a(x_a) + x_a t_a'(x_a).
+\]
+\end{definition}
+
+\begin{definition}[Congestion externality]
+The congestion externality is
+\[
+e_a(x_a) \defeq \CMS_a(x_a) - t_a(x_a) = x_a t_a'(x_a).
+\]
+\end{definition}
+
+\begin{proposition}
+For BPR costs,
+\[
+e_a(x_a) = \frac{\alpha \beta t_a^0}{c_a^\beta}x_a^\beta.
+\]
+\end{proposition}

@@ -1,0 +1,102 @@
+\Chapter{Directed Graphs and Network Flow}
+
+These notes collect the mathematical background for traffic assignment on road networks.
+
+\section{Directed graphs}
+
+\subsection{Basic definitions}
+
+\datebox{2026}
+
+\begin{definition}[Directed graph]
+A \emph{directed graph} is a pair $G = (V, A)$ where $V$ is a finite nonempty set of nodes and $A$ is a finite set of directed edges.
+\end{definition}
+
+\begin{notation}
+For a node $v \in V$, let $\delta^+(v)$ be the set of outgoing edges and $\delta^-(v)$ the set of incoming edges.
+\end{notation}
+
+\begin{definition}[Path]
+A \emph{path} from $s$ to $d$ is a sequence of nodes and directed edges joining $s$ to $d$. A path is simple if it does not repeat nodes. Let $\calP_{sd}$ denote the set of simple paths from $s$ to $d$.
+\end{definition}
+
+\subsection{Network flow}
+
+\begin{definition}[Origin-destination pairs]
+An \emph{origin-destination pair} is an ordered pair $w = (s_w, d_w)$ with demand $d_w > 0$.
+\end{definition}
+
+\begin{definition}[Route-flow vector]
+A route-flow vector is $f \in \R^{|\calP|}_+$, where $f_p$ is the flow assigned to path $p$. The induced edge flow is
+\[
+x_a = x_a(f) \defeq \sum_{p \in \calP} \delta_{ap} f_p,
+\]
+where $\delta_{ap}=1$ if edge $a$ belongs to path $p$ and $0$ otherwise.
+\end{definition}
+
+\begin{definition}[Feasible set]
+The feasible set is
+\[
+\FeasSet \defeq \left\{ f \in \R^{|\calP|}_+ \;\middle|\; \sum_{p \in \calP_w} f_p = d_w \quad \forall w \in W \right\}.
+\]
+\end{definition}
+
+\begin{proposition}\label{prop:omega_compact_convex}
+The set $\FeasSet$ is compact and convex.
+\end{proposition}
+
+\begin{proof}
+Convexity follows from the linear demand constraints. Compactness follows because the set is closed and bounded by $0 \leq f_p \leq d_w$ for each route $p \in \calP_w$.
+\end{proof}
+
+\subsection{Flow conservation}
+
+\begin{definition}[Flow conservation]
+An edge-flow vector satisfies conservation for pair $w=(s,d)$ if
+\[
+\sum_{a \in \delta^+(v)} x_a^w - \sum_{a \in \delta^-(v)} x_a^w = b_v^w \quad \forall v \in V,
+\]
+where $b_v^w=d_w$ at the origin, $b_v^w=-d_w$ at the destination, and $b_v^w=0$ otherwise.
+\end{definition}
+
+\begin{theorem}[Equivalent formulations]\label{thm:equivalencia}
+An edge-flow vector is induced by a feasible route-flow vector if and only if it satisfies flow conservation for all origin-destination pairs.
+\end{theorem}
+
+\section{Shortest-path algorithms}
+
+\subsection{Dijkstra's algorithm}
+
+\begin{definition}[Shortest-path problem]
+Given nonnegative edge weights, the shortest-path problem asks for a path of minimum total weight.
+\end{definition}
+
+\begin{algorithm}
+\caption{Dijkstra (1959)}
+\label{alg:dijkstra}
+\begin{algorithmic}[1]
+\Require Graph $G=(V,A)$, weights $w_a \geq 0$, source node $s$
+\Ensure Minimum distances $d[v]$ for all $v \in V$
+\State $d[s] \leftarrow 0$; $d[v] \leftarrow \infty$ for all $v \neq s$
+\State $S \leftarrow \emptyset$; $Q \leftarrow V$
+\While{$Q \neq \emptyset$}
+    \State $u \leftarrow \arg\min_{v \in Q} d[v]$
+    \State $Q \leftarrow Q \setminus \{u\}$; $S \leftarrow S \cup \{u\}$
+    \For{each edge $(u,v) \in A$}
+        \If{$d[u] + w_{(u,v)} < d[v]$}
+            \State $d[v] \leftarrow d[u] + w_{(u,v)}$
+        \EndIf
+    \EndFor
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Yen's algorithm for $k$ shortest paths}
+
+\begin{definition}[$k$ shortest paths]
+Given nodes $s$ and $d$, the problem is to find the $k$ shortest simple paths from $s$ to $d$.
+\end{definition}
+
+\begin{proposition}[Complexity of Yen's algorithm]
+Yen's algorithm has complexity $O(k n (m + n \log n))$ under a standard shortest-path implementation.
+\end{proposition}
