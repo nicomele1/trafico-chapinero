@@ -1,10 +1,11 @@
-"""
-Utilidades para carga y enriquecimiento del grafo vial.
-"""
+"""Graph loading and enrichment helpers."""
 
-from pathlib import Path
-import osmnx as ox
-import networkx as nx
+from typing import TYPE_CHECKING
+
+from .costs import bpr
+
+if TYPE_CHECKING:
+    import networkx as nx
 
 CAPACITY_MAP = {
     'motorway':       2200,
@@ -30,22 +31,20 @@ def get_capacity(highway_val) -> int:
     return CAPACITY_MAP.get(str(highway_val), 600)
 
 
-def load_graph(path) -> nx.MultiDiGraph:
-    """Carga un grafo desde GraphML."""
+def load_graph(path) -> "nx.MultiDiGraph":
+    """Load a GraphML road graph with OSMnx."""
+    import osmnx as ox
+
     return ox.load_graphml(str(path))
 
 
-def enrich_graph(G: nx.MultiDiGraph) -> nx.MultiDiGraph:
-    """Añade velocidades, tiempos de viaje libre y capacidades."""
+def enrich_graph(G: "nx.MultiDiGraph") -> "nx.MultiDiGraph":
+    """Add free-flow travel time and capacity attributes in place."""
+    import osmnx as ox
+
     G = ox.add_edge_speeds(G)
     G = ox.add_edge_travel_times(G)
     for u, v, k, data in G.edges(keys=True, data=True):
         data['capacity'] = get_capacity(data.get('highway', 'unclassified'))
         data['t0'] = data.get('travel_time', data['length'] / 8.33)
     return G
-
-
-def bpr(t0: float, flow: float, capacity: float,
-         alpha: float = 0.15, beta: float = 4) -> float:
-    """Función BPR: t(x) = t0 * (1 + alpha * (x/cap)^beta)."""
-    return t0 * (1 + alpha * (flow / capacity) ** beta)

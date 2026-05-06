@@ -1,27 +1,24 @@
-"""
-Fórmula de Webster para optimización de semáforos.
-"""
-import numpy as np
+"""Webster signal timing formulas."""
+
+
+def _clip(value: float, lower: float, upper: float) -> float:
+    return max(lower, min(value, upper))
 
 
 def webster_cycle(Y: float, L: float,
                   C_min: float = 30, C_max: float = 180) -> float:
-    """
-    Ciclo óptimo: C0 = (1.5*L + 5) / (1 - Y)
-    Y  = suma de razones de flujo crítico por fase
-    L  = tiempo perdido total por ciclo (s)
-    """
+    """Return Webster cycle length in seconds, clipped to bounds."""
     if Y >= 1.0:
         return C_max
     if Y <= 0:
         return C_min
-    return float(np.clip((1.5 * L + 5) / (1 - Y), C_min, C_max))
+    return float(_clip((1.5 * L + 5) / (1 - Y), C_min, C_max))
 
 
 def webster_greens(ys: list[float], cycle: float, L: float) -> list[float]:
-    """
-    Verde efectivo por fase: g_i = (C - L) * y_i / Y
-    """
+    """Allocate effective green times by critical flow ratios."""
+    if not ys:
+        return []
     Y = sum(ys)
     eff = cycle - L
     if Y <= 0 or eff <= 0:
@@ -31,10 +28,9 @@ def webster_greens(ys: list[float], cycle: float, L: float) -> list[float]:
 
 def webster_delay(q: float, s: float, g: float, C: float,
                   lost: float = 4.0) -> float:
-    """
-    Demora promedio por vehículo (Webster 1958, s/veh).
-    q, s en veh/h; g, C, lost en segundos.
-    """
+    """Return average Webster delay in seconds per vehicle."""
+    if q <= 0 or s <= 0 or g <= 0 or C <= 0:
+        return 0.0
     q_s  = q / 3600
     s_s  = s / 3600
     lam  = g / C
