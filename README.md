@@ -1,4 +1,4 @@
-# Traffic Modeling in Chapinero
+# Exploratory implementation of traffic assignment and signal timing models on a simplified road network associated with Chapinero.
 
 This repository contains an exploratory implementation of traffic-assignment and signal-timing ideas for a road network in Chapinero. The code is intended for mathematical and computational study. It is not a calibrated model of traffic in Chapinero and does not provide operational signal-control recommendations.
 
