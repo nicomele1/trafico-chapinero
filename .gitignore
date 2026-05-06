@@ -1,8 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/cache/
+
+# Data generated locally
 data/raw/*.graphml
 data/raw/*.pkl
 data/processed/
-__pycache__/
-*.pyc
-.ipynb_checkpoints/
-*.egg-info/
-.env
+
+# LaTeX/build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
